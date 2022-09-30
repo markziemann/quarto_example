@@ -1,0 +1,117 @@
+---
+title: "Basic features of Quarto"
+format:
+  html:
+    toc: true
+    self-contained: TRUE
+code-fold: true
+editor: visual
+theme: darkly
+bibliography: references.bib
+csl: harvard-deakin-university.csl
+---
+
+```{r}
+#| label: load-packages
+#| include: false
+
+library(tidyverse)
+library(palmerpenguins)
+```
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+Notice how the YAML header contains directions for generating a HTML output file.
+I have specified the code to be hidden which emphasises with results and discussion, but keeps the technical details
+for those who want them.
+I am a fan of dark themes, but you can choose from a wide variety of styles.
+
+Quarto has provided a lot of advances regarding references.
+I have saved my library of articles in bibtex format and called this `references.bib` which will be incorporated into
+this document references section.
+The `.bib` file was prepared for me using the [BibGuru website](https://app.bibguru.com/).
+
+The citation style is defined with the `csl:` option.
+You can see that I have selected the Harvard-Deakin style.
+To get this working I had to download the CSL file for that style from the [CSL GitHub repo](https://github.com/citation-style-language/styles).
+There are >2000 styles to choose from.
+This makes it very easy to swap styles, which is handy because we sometimes need to reformat our papers for a different journal.
+
+Here is are some citations - for example reproducibility is important for trust in computational research [@Peng2011-tp].
+
+## Penguin data analysis
+
+In this report, we can also conduct some data analysis and visualisation.
+Notice that I have included a specific caption for the chart below (Figure 1).
+
+```{r}
+#| label: plot-penguins
+#| fig-cap: Figure 1. Chart of penguin flipper and bill length.
+#| warning: false
+#| echo: false
+
+ggplot(penguins, 
+       aes(x = flipper_length_mm, y = bill_length_mm)) +
+  geom_point(aes(color = species, shape = species)) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(
+    title = "Flipper and bill length",
+    subtitle = "Dimensions for penguins at Palmer Station LTER",
+    x = "Flipper length (mm)", y = "Bill length (mm)",
+    color = "Penguin species", shape = "Penguin species"
+  ) +
+  theme_minimal()
+```
+
+## My custom analysis
+
+Here I will make a boxplot of flipper length.
+
+```{r}
+#| label: ttest
+#| warning: false
+#| echo: false
+adelie <- subset(penguins,species=="Adelie")
+gentoo <- subset(penguins,species=="Gentoo")
+chinstrap <- subset(penguins,species=="Chinstrap")
+flipper_len <- list("adelie"=adelie$flipper_length_mm,
+                    "gentoo"=gentoo$flipper_length_mm,
+                    "chinstrap"=chinstrap$flipper_length_mm)
+boxplot(flipper_len)
+```
+
+Here I will run a t-test to determine whether the difference between Adelie and Gentoo flipper length is statistically significant.
+
+```{r}
+t.test(adelie$flipper_length_mm,gentoo$flipper_length_mm)
+```
+
+## Discussion
+
+Here I'll cite the remaining two documents in the bib file. 
+When conducted incorrectly, enrichment analysis is highly biased [@Timmons2015-jc].
+
+One reason that poor methodology is so common in published works is that the statistical analysis appears more significant
+when incorrect methods are used [@Wijesooriya2022-xa].
+It will take increased awareness for these problems to be eliminated from the literature.
+
+## Session information
+
+It is always a good idea to record information about the environment, which will help reproducibility.
+You will see that I have hidden the session information details to keep the report uncluttered, but you can see them if you click below.
+
+<br><details><summary><b>Click HERE to show session info</b></summary><br><p>
+
+```{r}
+#| label: sessioninfo
+#| warning: false
+#| echo: false
+sessionInfo()
+```
+
+</details>
+
+## References
+
+:::{#refs}
+:::
