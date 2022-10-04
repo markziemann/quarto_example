@@ -1,0 +1,14 @@
+---
+title: "About us"
+---
+
+Out lab is all about scientific rigour and reproducibility.
+
+Here is a chart. 
+
+```{r}
+#| label: chart1
+
+plot(cars)
+```
+

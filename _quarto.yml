@@ -1,7 +1,33 @@
+project:
+  type: website
+  output-dir: docs
+
+toc: true
+number-sections: true
+
+format:
+  html:
+    toc: true
+    self-contained: TRUE
+code-fold: true
+editor: visual
+theme: darkly
+bibliography: references.bib
+csl: harvard-deakin-university.csl
+
 website:
   navbar:
     background: primary
     left:
-      - href: index.qmd
+      - icon: house
+        href: example.qmd
         text: Home
-      - about.qmd
+      - href: http://ziemann-lab.net
+        text: Lab Webpage
+      - href: about.qmd
+        text: About us
+    right: 
+      - icon: github
+        href: https://github.com/markziemann/quarto_example
+      - icon: twitter
+        href: https://twitter.com/mdziemann
