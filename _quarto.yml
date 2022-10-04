@@ -1,7 +1,10 @@
 project:
   type: website
   output-dir: docs
-
+  render:
+    - example.qmd
+    - about.qmd
+    
 toc: true
 number-sections: true
 

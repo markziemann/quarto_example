@@ -17,6 +17,9 @@ Quarto enables you to weave together content and executable code into a finished
 Notice how the YAML header only contains the document title. 
 The other formatting specifications are given in the `_quarto.yml` file. 
 The benefit of doing it this way is that each qmd notebook in your will be generated with the same formatting in a consistent manner.
+You can even specify the order in which the qmd files are rendered.
+This means that a single `quarto render` command is enough to render your entire website,
+analysis or thesis.
 
 I have specified the code to be hidden which emphasises with results and discussion, but keeps the technical details for those who want them.
 I am a fan of dark themes, but you can choose from a wide variety of styles.
