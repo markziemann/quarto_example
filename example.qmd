@@ -6,8 +6,13 @@ title: "Quarto: interesting features"
 #| label: load-packages
 #| include: false
 
-library(tidyverse)
-library(palmerpenguins)
+library("tidyverse")
+library("palmerpenguins")
+library("kableExtra")
+library("plotly")
+library("ggplot2")
+library("DiagrammeR")
+
 ```
 
 ## Some background about Quarto
@@ -42,33 +47,16 @@ Here is are some citations - for example reproducibility is important for trust 
 
 ## Example data analysis
 
-In this report, we can also conduct some data analysis and visualisation. Notice that I have included a specific caption for the chart below (Figure 1).
+In this report, we can also conduct some data analysis and visualisation. 
+
+### Static chart
+
+Here I will make a boxplot of flipper length in the penguin dataset.
+Notice that I have included a specific caption for the chart below (Figure 1).
 
 ```{r}
-#| label: plot-penguins
-#| fig-cap: Figure 1. Chart of penguin flipper and bill length.
-#| warning: false
-#| echo: false
-
-ggplot(penguins, 
-       aes(x = flipper_length_mm, y = bill_length_mm)) +
-  geom_point(aes(color = species, shape = species)) +
-  scale_color_manual(values = c("darkorange","purple","cyan4")) +
-  labs(
-    title = "Flipper and bill length",
-    subtitle = "Dimensions for penguins at Palmer Station LTER",
-    x = "Flipper length (mm)", y = "Bill length (mm)",
-    color = "Penguin species", shape = "Penguin species"
-  ) +
-  theme_minimal()
-```
-
-## My custom analysis
-
-Here I will make a boxplot of flipper length.
-
-```{r}
-#| label: ttest
+#| label: boxplot1
+#| fig-cap: Figure 1. Penguin boxplot.
 #| warning: false
 #| echo: false
 adelie <- subset(penguins,species=="Adelie")
@@ -80,13 +68,76 @@ flipper_len <- list("adelie"=adelie$flipper_length_mm,
 boxplot(flipper_len)
 ```
 
-Here I will run a t-test to determine whether the difference between Adelie and Gentoo flipper length is statistically significant.
+### Interactive chart
+
+Using the power of plotly, this ggplot2 chart is easily made interactive.
+Hover over the points to make use of it.
 
 ```{r}
+#| label: plot1
+#| fig-cap: Figure 2. Interactive chart of iris data.
+#| warning: false
+#| echo: false
+
+p <- ggplot(data=iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+      geom_point(aes(color=Species, shape=Species)) +
+      labs(title = "Iris sepal width vs length")
+
+ggplotly(p)
+
+```
+
+### Statistical analysis
+
+Here I will run a t-test to determine whether the difference between Adelie and Gentoo flipper length is statistically significant (Figure 2).
+
+```{r}
+#| label: ttest1
 t.test(adelie$flipper_length_mm,gentoo$flipper_length_mm)
 ```
 
-## Discussion
+### Tabular data
+
+Here I will give an example of a a table, generated with KableExtra (Table 1).
+
+```{r}
+#| label: table1
+head(mtcars,10) %>% kbl(caption = "Table 1. Mtcars dataset") %>% kable_styling(full_width = FALSE)
+
+```
+
+### Flow chart
+
+Here is an example of a flow chart using the DiagrammeR package.
+
+```{r}
+#| label: flowchart1
+#| fig-cap: Figure 3. Project flowchart.
+
+grViz("digraph flowchart {
+      node [fontname = Helvetica, shape = rectangle]        
+      tab1 [label = '@@1']
+      tab2 [label = '@@2']
+      tab3 [label = '@@3']
+      tab1 -> tab2 -> tab3;
+      tab3 -> tab1 }
+      [1]: 'Data 1'
+      [2]: 'Data 2'
+      [3]: 'Results'
+")
+
+```
+
+### Static images
+
+Here is an example of adding an image to your report.
+It can be located in your local git repo or somewhere else on the web.
+
+![Figure 4: A cute kitty.](https://thebestmotherfucking.website/static/e84d13374f0772372eaa86614800bd58.jpg)
+
+## Conclusion
+
+So as you can see, Quarto is great for publishing all sorts of content.
 
 Here I'll cite the remaining two documents in the bib file. When conducted incorrectly, enrichment analysis is highly biased [@Timmons2015-jc].
 
