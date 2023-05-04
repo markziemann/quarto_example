@@ -1,0 +1,34 @@
+---
+title: webR in Quarto doc example
+format: html
+engine: knitr
+filters:
+  - webr
+---
+
+This is a basic block of R code.
+
+```{r}
+fit = lm(mpg ~ wt ,data = mtcars)
+plot(mpg ~ wt ,data = mtcars)
+abline(fit)
+summary(fit)
+
+```
+
+This is a webR-enabled code cell in a Quarto doc.
+
+```{webr}
+fit = lm(mpg ~ wt ,data = mtcars)
+plot(mpg ~ wt ,data = mtcars)
+abline(fit)
+summary(fit)
+```
+
+End
+
+```{r}
+
+sessionInfo()
+
+```
